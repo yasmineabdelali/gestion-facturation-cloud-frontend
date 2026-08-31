@@ -1,0 +1,8 @@
+<div class="row">
+  <div class="col-12">
+    <h3>Tableau de bord</h3>
+    @if (authService.currentUser(); as user) {
+      <p>Bienvenue, {{ user.nom }} ({{ user.role }})</p>
+    }
+  </div>
+</div>

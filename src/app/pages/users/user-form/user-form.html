@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ mode === 'create' ? 'Nouvel utilisateur' : 'Modifier utilisateur' }}</h5>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+  <form (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label class="form-label">Nom</label>
+      <input type="text" class="form-control" [(ngModel)]="nom" name="nom" required />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-control" [(ngModel)]="email" name="email" required />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">
+        Mot de passe
+        @if (mode === 'edit') {
+          <small class="text-muted">(laisser vide pour ne pas changer)</small>
+        }
+      </label>
+      <input type="password" class="form-control" [(ngModel)]="password" name="password" [required]="mode === 'create'" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Rôle</label>
+      <select class="form-select" [(ngModel)]="role" name="role">
+        <option value="consultant">Consultant</option>
+        <option value="admin">Administrateur</option>
+      </select>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="alert alert-danger">{{ errorMessage() }}</div>
+    }
+
+    <div class="modal-footer px-0 pb-0">
+      <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Annuler</button>
+      <button type="submit" class="btn btn-primary" [disabled]="isSaving()">
+        {{ isSaving() ? 'Enregistrement...' : 'Enregistrer' }}
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,39 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ mode === 'create' ? 'Nouvelle société' : 'Modifier la société' }}</h5>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+  <form (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label class="form-label">Nom *</label>
+      <input type="text" class="form-control" [(ngModel)]="nom" name="nom" required />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Adresse</label>
+      <input type="text" class="form-control" [(ngModel)]="adresse" name="adresse" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Téléphone *</label>
+      <input type="tel" class="form-control" [(ngModel)]="telephone" name="telephone" required />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Email *</label>
+      <input type="email" class="form-control" [(ngModel)]="email" name="email" required />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Personne de contact</label>
+      <input type="text" class="form-control" [(ngModel)]="personne_contact" name="personne_contact" />
+    </div>
+
+    @if (errorMessage()) {
+      <div class="alert alert-danger">{{ errorMessage() }}</div>
+    }
+
+    <div class="modal-footer px-0 pb-0">
+      <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Annuler</button>
+      <button type="submit" class="btn btn-primary" [disabled]="isSaving()">
+        {{ isSaving() ? 'Enregistrement...' : 'Enregistrer' }}
+      </button>
+    </div>
+  </form>
+</div>

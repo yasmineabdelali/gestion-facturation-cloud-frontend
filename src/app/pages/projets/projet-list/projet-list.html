@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Projets (SO)</h5>
+        <button class="btn btn-primary btn-sm" (click)="openCreateModal()">
+          <i class="feather icon-plus"></i> Nouveau projet
+        </button>
+      </div>
+      <div class="card-body">
+        @if (isLoading()) {
+          <p>Chargement...</p>
+        } @else {
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Numéro SO</th>
+                <th>Nom du projet</th>
+                <th>Société</th>
+                <th>Date de début</th>
+                <th>Statut</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (projet of projets(); track projet.id) {
+                <tr>
+                  <td>{{ projet.numero_so }}</td>
+                  <td>
+                     <a [routerLink]="['/projets', projet.id]" class="text-primary fw-medium">
+                         {{ projet.nom_projet }}
+                      </a>
+                  </td>
+                  <td>{{ projet.societe?.nom || '-' }}</td>
+                  <td>{{ projet.date_debut | date: 'dd/MM/yyyy' }}</td>
+                  <td>
+                    <span class="badge" [class]="statutBadgeClass(projet.statut)">
+                      {{ projet.statut }}
+                    </span>
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-primary me-1" (click)="openEditModal(projet)">
+                      <i class="feather icon-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="deleteProjet(projet)">
+                      <i class="feather icon-trash-2"></i>
+                    </button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="6" class="text-center">Aucun projet</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+    </div>
+  </div>
+</div>

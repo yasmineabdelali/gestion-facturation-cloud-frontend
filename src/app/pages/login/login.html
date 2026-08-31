@@ -1,0 +1,69 @@
+<div class="auth-split-wrapper">
+  <div class="auth-illustration">
+    <div class="illustration-content">
+      <div class="brand-badge">
+        <i class="feather icon-cloud"></i>
+        <span>Facturation Cloud</span>
+      </div>
+      <h2>Content de vous revoir</h2>
+      <h1>BON RETOUR</h1>
+      <p>Gérez vos sociétés, projets et factures Cloud en toute simplicité, depuis une seule plateforme centralisée.</p>
+    </div>
+    <svg class="wave-bottom" viewBox="0 0 500 150" preserveAspectRatio="none">
+      <path d="M0.00,49.98 C150.00,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" fill="rgba(255,255,255,0.08)"></path>
+    </svg>
+    <svg class="wave-bottom wave-bottom-2" viewBox="0 0 500 150" preserveAspectRatio="none">
+      <path d="M0.00,89.98 C150.00,190.00 349.20,-9.98 500.00,89.98 L500.00,150.00 L0.00,150.00 Z" fill="rgba(255,255,255,0.12)"></path>
+    </svg>
+  </div>
+
+  <div class="auth-form-side">
+    <div class="auth-form-content">
+      <h3>Connexion</h3>
+      <p class="text-muted mb-4">Entrez vos identifiants pour accéder à votre compte.</p>
+
+      <form (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control"
+            [(ngModel)]="email"
+            required
+            placeholder="votre@email.com"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Mot de passe</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control"
+            [(ngModel)]="password"
+            required
+            placeholder="••••••••"
+          />
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="remember" />
+            <label class="form-check-label" for="remember">Se souvenir de moi</label>
+          </div>
+          <a routerLink="/forgot-password" class="forgot-link">Mot de passe oublié ?</a>
+        </div>
+
+        @if (errorMessage()) {
+          <div class="alert alert-danger">{{ errorMessage() }}</div>
+        }
+
+        <button type="submit" class="btn btn-primary w-100 btn-login" [disabled]="isLoading()">
+          @if (isLoading()) { Connexion en cours... } @else { Se connecter }
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

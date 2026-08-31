@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Utilisateurs</h5>
+        <button class="btn btn-primary btn-sm" (click)="openCreateModal()">
+          <i class="feather icon-plus"></i> Nouvel utilisateur
+        </button>
+      </div>
+      <div class="card-body">
+        @if (isLoading()) {
+          <p>Chargement...</p>
+        } @else {
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Rôle</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of users(); track user.id) {
+                <tr>
+                  <td>{{ user.nom }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>
+                    <span class="badge" [class.bg-primary]="user.role === 'admin'" [class.bg-secondary]="user.role !== 'admin'">
+                      {{ user.role }}
+                    </span>
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-primary me-1" (click)="openEditModal(user)">
+                      <i class="feather icon-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="deleteUser(user)">
+                      <i class="feather icon-trash-2"></i>
+                    </button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="4" class="text-center">Aucun utilisateur</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+    </div>
+  </div>
+</div>

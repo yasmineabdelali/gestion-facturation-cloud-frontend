@@ -1,0 +1,48 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ mode === 'create' ? 'Nouveau projet' : 'Modifier le projet' }}</h5>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+  <form (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label class="form-label">Société *</label>
+      <select class="form-select" [(ngModel)]="societe_id" name="societe_id" required>
+        <option [ngValue]="null" disabled>Sélectionner une société</option>
+        @for (societe of societes(); track societe.id) {
+          <option [ngValue]="societe.id">{{ societe.nom }}</option>
+        }
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Numéro SO *</label>
+      <input type="text" class="form-control" [(ngModel)]="numero_so" name="numero_so" required />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Nom du projet *</label>
+      <input type="text" class="form-control" [(ngModel)]="nom_projet" name="nom_projet" required />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Date de début *</label>
+      <input type="date" class="form-control" [(ngModel)]="date_debut" name="date_debut" required />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Statut *</label>
+      <select class="form-select" [(ngModel)]="statut" name="statut" required>
+        @for (option of statutOptions; track option) {
+          <option [value]="option">{{ option }}</option>
+        }
+      </select>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="alert alert-danger">{{ errorMessage() }}</div>
+    }
+
+    <div class="modal-footer px-0 pb-0">
+      <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Annuler</button>
+      <button type="submit" class="btn btn-primary" [disabled]="isSaving()">
+        {{ isSaving() ? 'Enregistrement...' : 'Enregistrer' }}
+      </button>
+    </div>
+  </form>
+</div>
