@@ -34,7 +34,16 @@ const routes: Routes = [
 {
         path: 'projets/:id',
         loadComponent: () => import('./pages/projets/projet-detail/projet-detail').then((c) => c.ProjetDetail)
-      }
+},
+{
+  path: 'projets/:id/factures',
+  loadComponent: () => import('./pages/factures/facture-list/facture-list').then((c) => c.FactureList)
+},
+{
+  path: 'factures/:id',
+  loadComponent: () => import('./pages/factures/facture-detail/facture-detail').then((c) => c.FactureDetail)
+}
+
 
   ]
 },

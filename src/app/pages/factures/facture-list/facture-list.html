@@ -1,0 +1,92 @@
+@if (projet(); as p) {
+  <div class="row mb-3">
+    <div class="col-12">
+      <a [routerLink]="['/projets', p.id]" class="text-muted">
+        <i class="feather icon-arrow-left"></i> Retour au projet
+      </a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Facturation — {{ p.nom_projet }}</h5>
+          <button class="btn btn-primary btn-sm" (click)="showCreateForm.set(!showCreateForm())">
+            <i class="feather icon-plus"></i> Nouvelle facture
+          </button>
+        </div>
+        <div class="card-body">
+          @if (showCreateForm()) {
+            <div class="border rounded p-3 mb-4 bg-light">
+              <h6>Créer une nouvelle facture</h6>
+              <div class="row g-2 align-items-end">
+                <div class="col-md-3">
+                  <label class="form-label">Type de période</label>
+                  <select class="form-select" [(ngModel)]="typePeriode">
+                    @for (option of typeOptions; track option) {
+                      <option [value]="option">{{ option }}</option>
+                    }
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Année</label>
+                  <input type="number" class="form-control" [(ngModel)]="annee" />
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">N° période (1-{{ maxNumeroPeriode }})</label>
+                  <input type="number" class="form-control" [(ngModel)]="numeroPeriode" [min]="1" [max]="maxNumeroPeriode" />
+                </div>
+                <div class="col-md-3">
+                  <button class="btn btn-success w-100" (click)="onCreateFacture()">Créer</button>
+                </div>
+              </div>
+              @if (errorMessage()) {
+                <div class="alert alert-danger mt-2 mb-0">{{ errorMessage() }}</div>
+              }
+            </div>
+          }
+
+          @if (isLoading()) {
+            <p>Chargement...</p>
+          } @else {
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Période</th>
+                  <th>Type</th>
+                  <th>Statut</th>
+                  <th>Montant total</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (facture of factures(); track facture.id) {
+                  <tr>
+                    <td>{{ libellePeriode(facture) }}</td>
+                    <td>{{ facture.type_periode }}</td>
+                    <td>
+                      <span class="badge" [class.bg-success]="facture.statut === 'validee'" [class.bg-warning]="facture.statut === 'brouillon'">
+                        {{ facture.statut }}
+                      </span>
+                    </td>
+                    <td>{{ facture.montant_total | number: '1.2-2' }}</td>
+                    <td>
+                      <a [routerLink]="['/factures', facture.id]" class="btn btn-sm btn-outline-primary">
+                        <i class="feather icon-eye"></i> Voir
+                      </a>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="5" class="text-center">Aucune facture pour ce projet</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}

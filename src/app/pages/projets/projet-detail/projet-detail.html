@@ -1,9 +1,12 @@
 @if (projet(); as p) {
   <div class="row mb-3">
-    <div class="col-12">
+  <div class="col-12 d-flex justify-content-between align-items-center">
       <a [routerLink]="['/societes', p.societe_id]" class="text-muted">
         <i class="feather icon-arrow-left"></i> Retour à la société
       </a>
+      <a [routerLink]="['/projets', p.id, 'factures']" class="btn btn-primary btn-sm">
+      <i class="feather icon-file-text"></i> Facturation
+    </a>
     </div>
   </div>
 
