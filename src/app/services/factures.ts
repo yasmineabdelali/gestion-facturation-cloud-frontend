@@ -46,4 +46,37 @@ export class FacturesService {
   devalider(id: number): Observable<Facture> {
     return this.http.patch<Facture>(`${this.apiUrl}/${id}/devalider`, {});
   }
+  //telechargement de la facture en forme pdf
+  downloadPdf(id: number): void {
+  this.http.get(`${this.apiUrl}/${id}/pdf`, { responseType: 'blob' }).subscribe({
+    next: (blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `facture-${id}.pdf`;
+      link.click();
+      window.URL.revokeObjectURL(url);
+    },
+    error: () => {
+      alert('Erreur lors du téléchargement du PDF');
+    }
+  });
+}
+
+
+downloadExcel(id: number): void {
+  this.http.get(`${this.apiUrl}/${id}/excel`, { responseType: 'blob' }).subscribe({
+    next: (blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `facture-${id}.xlsx`;
+      link.click();
+      window.URL.revokeObjectURL(url);
+    },
+    error: () => {
+      alert('Erreur lors du téléchargement du fichier Excel');
+    }
+  });
+}
 }

@@ -13,11 +13,15 @@ import { Projet } from '../../../models/projet.model';
   templateUrl: './facture-list.html',
   styleUrl: './facture-list.scss'
 })
-export class FactureList implements OnInit {
+export class FactureList implements OnInit  {
+
+
+  //Des propriétés d'état 
   projet = signal<Projet | null>(null);
   factures = signal<Facture[]>([]);
   isLoading = signal(false);
   errorMessage = signal<string | null>(null);
+
 
   projetId!: number;
 
@@ -26,6 +30,9 @@ export class FactureList implements OnInit {
   annee = new Date().getFullYear();
   numeroPeriode = 1;
   typeOptions = Object.values(TypePeriode);
+
+
+//les dependances injectée
 
   constructor(
     private route: ActivatedRoute,
@@ -95,4 +102,7 @@ export class FactureList implements OnInit {
     }
     return `S${facture.numero_periode} ${facture.annee}`;
   }
+  
+  
+
 }

@@ -1,3 +1,4 @@
+import { Projet } from './projet.model';
 export enum TypePeriode {
   MENSUELLE = 'mensuelle',
   TRIMESTRIELLE = 'trimestrielle',
@@ -20,9 +21,11 @@ export interface LigneFacture {
   montant_ligne: number;
 }
 
+
 export interface Facture {
   id: number;
   projet_id: number;
+  projet?: Projet;
   type_periode: TypePeriode;
   annee: number;
   numero_periode: number;

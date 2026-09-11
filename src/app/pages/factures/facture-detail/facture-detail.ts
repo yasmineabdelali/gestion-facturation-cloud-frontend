@@ -19,8 +19,7 @@ export class FactureDetail implements OnInit {
   successMessage = signal<string | null>(null);
   errorMessage = signal<string | null>(null);
 
-  quantites: Record<number, number> = {};
-
+quantites: Record<number, number | undefined> = {};
   factureId!: number;
 
   constructor(
@@ -114,4 +113,10 @@ export class FactureDetail implements OnInit {
       }
     });
   }
+  onDownloadPdf(): void {
+  this.facturesService.downloadPdf(this.factureId);
+}
+  onDownloadExcel(): void {
+  this.facturesService.downloadExcel(this.factureId);
+}
 }

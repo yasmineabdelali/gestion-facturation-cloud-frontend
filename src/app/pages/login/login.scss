@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #4a90e2 0%, #2563eb 100%);
+background: linear-gradient(135deg, #11376C 0%, #00A8E7 100%);
   overflow: hidden;
   min-height: 100vh;
 
@@ -27,6 +27,14 @@
   padding: 3rem;
   max-width: 480px;
   text-align: left;
+
+  .login-logo {
+    max-width: 220px;
+    height: auto;
+    margin-bottom: 2.5rem;
+  }
+
+
 
   .brand-badge {
     display: inline-flex;
@@ -44,13 +52,13 @@
     }
   }
 
+
   h2 {
     font-size: 1.1rem;
     font-weight: 400;
     opacity: 0.85;
     margin-bottom: 0.25rem;
   }
-
   h1 {
     font-size: 2.75rem;
     font-weight: 800;
@@ -119,28 +127,28 @@
     border-radius: 8px;
     border: 1px solid #e0e0e0;
 
-    &:focus {
-      border-color: #4a90e2;
-      box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.15);
-    }
+&:focus {
+  border-color: #00A8E7;
+  box-shadow: 0 0 0 0.2rem rgba(0, 168, 231, 0.15);
+}
   }
 
-  .forgot-link {
-    font-size: 0.85rem;
-    color: #4a90e2;
-    text-decoration: none;
+.forgot-link {
+  font-size: 0.85rem;
+  color: #00A8E7;
+  text-decoration: none;
 
     &:hover {
       text-decoration: underline;
     }
   }
 
-  .btn-login {
-    padding: 0.7rem;
-    border-radius: 8px;
-    font-weight: 600;
-    background: linear-gradient(135deg, #4a90e2 0%, #2563eb 100%);
-    border: none;
+.btn-login {
+  padding: 0.7rem;
+  border-radius: 8px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #11376C 0%, #00A8E7 100%);
+  border: none;
 
     &:hover {
       opacity: 0.9;

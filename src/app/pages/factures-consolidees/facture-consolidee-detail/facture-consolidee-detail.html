@@ -1,0 +1,53 @@
+@if (consolidee(); as fc) {
+  <div class="row mb-3">
+    <div class="col-12">
+      <a [routerLink]="['/societes', fc.societe_id]" class="text-muted">
+        <i class="feather icon-arrow-left"></i> Retour à la société
+      </a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">
+            Facture consolidée {{ fc.type_periode }} — {{ libellePeriode() }}
+          </h5>
+        </div>
+        <div class="card-body">
+          <p class="text-muted">
+            Cette facture consolidée regroupe {{ fc.factures.length }} facture(s) validée(s) des différents projets (SO) de la société.
+          </p>
+
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Numéro SO</th>
+                <th>Nom du projet</th>
+                <th>Montant</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (f of fc.factures; track f.id) {
+                <tr>
+                  <td>{{ f.projet?.numero_so }}</td>
+                  <td>{{ f.projet?.nom_projet }}</td>
+                  <td>{{ f.montant_total | number: '1.2-2' }}</td>
+                </tr>
+              }
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2" class="text-end"><strong>Montant total consolidé</strong></td>
+                <td><strong>{{ fc.montant_total | number: '1.2-2' }}</strong></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+} @else if (isLoading()) {
+  <p>Chargement...</p>
+}

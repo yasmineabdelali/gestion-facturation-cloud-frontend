@@ -91,4 +91,83 @@
       </div>
     </div>
   </div>
+
+
+  //pour la facture-consolidees
+
+    <div class="row mt-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Factures consolidées</h5>
+          <button class="btn btn-primary btn-sm" (click)="showConsolideeForm.set(!showConsolideeForm())">
+            <i class="feather icon-plus"></i> Nouvelle consolidation
+          </button>
+        </div>
+        <div class="card-body">
+          @if (showConsolideeForm()) {
+            <div class="border rounded p-3 mb-4 bg-light">
+              <h6>Créer une facture consolidée</h6>
+              <p class="text-muted small">Regroupe automatiquement toutes les factures validées des projets de cette société pour la période choisie.</p>
+              <div class="row g-2 align-items-end">
+                <div class="col-md-3">
+                  <label class="form-label">Type de période</label>
+                  <select class="form-select" [(ngModel)]="typePeriodeConsolidee" name="typePeriodeConsolidee">
+                    @for (option of typeOptions; track option) {
+                      <option [value]="option">{{ option }}</option>
+                    }
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Année</label>
+                  <input type="number" class="form-control" [(ngModel)]="anneeConsolidee" name="anneeConsolidee" />
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">N° période (1-{{ maxNumeroPeriodeConsolidee }})</label>
+                  <input type="number" class="form-control" [(ngModel)]="numeroPeriodeConsolidee" name="numeroPeriodeConsolidee" [min]="1" [max]="maxNumeroPeriodeConsolidee" />
+                </div>
+                <div class="col-md-3">
+                  <button class="btn btn-success w-100" (click)="onCreateConsolidee()">Créer</button>
+                </div>
+              </div>
+              @if (consolideeError()) {
+                <div class="alert alert-danger mt-2 mb-0">{{ consolideeError() }}</div>
+              }
+            </div>
+          }
+
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Période</th>
+                <th>Type</th>
+                <th>Nombre de factures</th>
+                <th>Montant total</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (fc of consolidees(); track fc.id) {
+                <tr>
+                  <td>{{ libellePeriodeConsolidee(fc) }}</td>
+                  <td>{{ fc.type_periode }}</td>
+                  <td>{{ fc.factures.length }}</td>
+                  <td>{{ fc.montant_total | number: '1.2-2' }}</td>
+                  <td>
+                    <a [routerLink]="['/factures-consolidees', fc.id]" class="btn btn-sm btn-outline-primary">
+                      <i class="feather icon-eye"></i> Voir
+                    </a>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="5" class="text-center">Aucune facture consolidée</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 }

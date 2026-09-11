@@ -42,9 +42,12 @@ const routes: Routes = [
 {
   path: 'factures/:id',
   loadComponent: () => import('./pages/factures/facture-detail/facture-detail').then((c) => c.FactureDetail)
-}
+},
 
-
+{
+  path: 'factures-consolidees/:id',
+  loadComponent: () => import('./pages/factures-consolidees/facture-consolidee-detail/facture-consolidee-detail').then((c) => c.FactureConsolideeDetail)
+},
   ]
 },
 {

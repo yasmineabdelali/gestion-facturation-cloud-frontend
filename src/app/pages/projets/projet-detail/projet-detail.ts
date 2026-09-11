@@ -98,4 +98,5 @@ export class ProjetDetail implements OnInit {
   calculTotal(offre: OffreFinanciere): number {
     return offre.ressources.reduce((sum, r) => sum + r.quantite * r.prix_unitaire, 0);
   }
+
 }
