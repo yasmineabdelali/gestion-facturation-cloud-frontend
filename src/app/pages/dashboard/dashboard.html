@@ -1,8 +1,77 @@
-<div class="row">
-  <div class="col-12">
-    <h3>Tableau de bord</h3>
+<div class="dashboard-container">
+  <header>
+    <h1>Tableau de bord</h1>
     @if (authService.currentUser(); as user) {
-      <p>Bienvenue, {{ user.nom }} ({{ user.role }})</p>
+      <div class="user-info">
+        <span>{{ user.nom }} ({{ user.role }})</span>
+      </div>
     }
-  </div>
+  </header>
+
+  @if (isLoading()) {
+    <p>Chargement...</p>
+  } @else if (indicateurs(); as ind) {
+     <!-- affichage des cartes -->
+    <div class="row g-3">
+      <div class="col-md-4 col-sm-6">
+        <div class="card indicator-card bg-primary text-white">
+          <div class="card-body d-flex align-items-center justify-content-between">
+            <div>
+              <p class="mb-1 opacity-75">Sociétés</p>
+              <h2 class="mb-0">{{ ind.nombreSocietes }}</h2>
+            </div>
+            <i class="feather icon-briefcase icon-large"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6">
+        <div class="card indicator-card bg-success text-white">
+          <div class="card-body d-flex align-items-center justify-content-between">
+            <div>
+              <p class="mb-1 opacity-75">Projets actifs</p>
+              <h2 class="mb-0">{{ ind.nombreProjetsActifs }}</h2>
+            </div>
+            <i class="feather icon-folder icon-large"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6">
+        <div class="card indicator-card bg-warning text-white">
+          <div class="card-body d-flex align-items-center justify-content-between">
+            <div>
+              <p class="mb-1 opacity-75">Factures en attente</p>
+              <h2 class="mb-0">{{ ind.nombreFacturesEnAttente }}</h2>
+            </div>
+            <i class="feather icon-clock icon-large"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6">
+        <div class="card indicator-card bg-info text-white">
+          <div class="card-body d-flex align-items-center justify-content-between">
+            <div>
+              <p class="mb-1 opacity-75">Factures validées</p>
+              <h2 class="mb-0">{{ ind.nombreFacturesValidees }}</h2>
+            </div>
+            <i class="feather icon-check-circle icon-large"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8 col-sm-12">
+        <div class="card indicator-card montant-card text-white">
+          <div class="card-body d-flex align-items-center justify-content-between">
+            <div>
+              <p class="mb-1 opacity-75">Montant total facturé (validé)</p>
+              <h2 class="mb-0">{{ ind.montantTotalFacture | number: '1.2-2' }}</h2>
+            </div>
+            <i class="feather icon-dollar-sign icon-large"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
 </div>

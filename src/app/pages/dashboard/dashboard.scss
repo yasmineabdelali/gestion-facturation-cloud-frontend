@@ -1,0 +1,27 @@
+.dashboard-container {
+  padding: 2rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 1rem;
+}
+
+.indicator-card {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+
+  .icon-large {
+    font-size: 2.5rem;
+    opacity: 0.5;
+  }
+}
+
+.montant-card {
+  background: linear-gradient(135deg, #11376C 0%, #00A8E7 100%);
+}
