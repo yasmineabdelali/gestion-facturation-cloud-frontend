@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DashboardIndicateurs } from '../models/dashboard.model';
-
+import { DashboardIndicateurs, RepartitionFactures } from '../models/dashboard.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,4 +13,9 @@ export class DashboardService {
   getIndicateurs(): Observable<DashboardIndicateurs> {
     return this.http.get<DashboardIndicateurs>(`${this.apiUrl}/indicateurs`);
   }
+   //repatition des factures selon status validee ou brouillon
+
+  getRepartitionFactures(): Observable<RepartitionFactures> {
+  return this.http.get<RepartitionFactures>(`${this.apiUrl}/repartition-factures`);
+}
 }

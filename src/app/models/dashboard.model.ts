@@ -5,3 +5,7 @@ export interface DashboardIndicateurs {
   nombreFacturesValidees: number;
   montantTotalFacture: number;
 }
+export interface RepartitionFactures {
+  labels: string[];
+  series: number[];
+}

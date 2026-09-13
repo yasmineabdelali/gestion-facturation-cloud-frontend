@@ -73,5 +73,32 @@
         </div>
       </div>
     </div>
+
+       
+
+    <div class="row g-3 mt-2">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Répartition des factures</h5>
+          </div>
+          <div class="card-body">
+            @if (pieChartOptions(); as chartOptions) {
+              <apx-chart
+                [series]="chartOptions.series"
+                [chart]="chartOptions.chart"
+                [labels]="chartOptions.labels"
+                [colors]="chartOptions.colors"
+                [legend]="chartOptions.legend"
+                [responsive]="chartOptions.responsive"
+              ></apx-chart>
+            } @else {
+              <p class="text-muted">Chargement du graphique...</p>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  
   }
 </div>
