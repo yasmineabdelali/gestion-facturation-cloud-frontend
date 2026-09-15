@@ -6,13 +6,12 @@ import { CommonModule } from '@angular/common';
 // Project Import
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { NavigationComponent } from './navigation/navigation.component';
-import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcrumb.component';
 import { Footer } from './footer/footer';
 import { LayoutStateService } from '../../shared/service/layout-state.service';
 
 @Component({
   selector: 'app-admin',
-  imports: [RouterModule, NavBarComponent, NavigationComponent, CommonModule, BreadcrumbComponent, Footer],
+  imports: [RouterModule, NavBarComponent, NavigationComponent, CommonModule, Footer],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
