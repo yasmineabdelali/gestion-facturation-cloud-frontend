@@ -59,7 +59,14 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         url: '/factures',
         icon: 'feather icon-file-text'
-      }
+      },
+      {
+      id: 'recherche',
+      title: 'Recherche',
+      type: 'item',
+      url: '/recherche',
+      icon: 'feather icon-search'
+    }
     ]
   },
   {
@@ -74,7 +81,8 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         url: '/users',
         icon: 'feather icon-users'
-      }
+      },
+      
     ]
   }
 ];
