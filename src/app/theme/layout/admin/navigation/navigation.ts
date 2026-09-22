@@ -60,6 +60,13 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         url: '/factures',
         icon: 'feather icon-file-text'
+      },
+      {
+        id :'statistiques' ,
+        title :'Statistiques',
+        type: 'item',
+        url: '/statistiques',
+        icon : 'feather icon-barchart-2'
       }
     ]
   },
@@ -75,7 +82,14 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         url: '/users',
         icon: 'feather icon-users'
-      }
+      },
+      {
+       id: 'audit-logs',
+       title: 'Journal des actions',
+       type: 'item',
+       url: '/audit-logs',
+       icon: 'feather icon-list'
+}
     ]
   }
 ];

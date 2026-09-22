@@ -6,6 +6,12 @@ import { authGuard } from './guards/auth-guard';
 import { adminGuard } from './guards/admin-guard';
 
 const routes: Routes = [
+ {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+
   {
     path: '',
     component: AdminComponent,
@@ -54,7 +60,17 @@ const routes: Routes = [
           import('./pages/factures-consolidees/facture-consolidee-detail/facture-consolidee-detail').then(
             (c) => c.FactureConsolideeDetail
           )
-      }
+      },
+      {
+       path: 'audit-logs',
+       canActivate: [adminGuard],
+        loadComponent: () => import('./pages/audit-logs/audit-log-list/audit-log-list').then((c) => c.AuditLogList)
+},
+{
+  path: 'statistiques',
+  loadComponent: () => import('./pages/statistiques/statistiques').then((c) => c.Statistiques)
+}
+
     ]
   },
   {

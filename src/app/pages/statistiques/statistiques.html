@@ -1,0 +1,98 @@
+<div class="row mb-3">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="btn-group">
+          <button class="btn btn-sm" [class.btn-primary]="vueActive === 'client'" [class.btn-outline-primary]="vueActive !== 'client'" (click)="changerVue('client')">
+            Par client
+          </button>
+          <button class="btn btn-sm" [class.btn-primary]="vueActive === 'ressource'" [class.btn-outline-primary]="vueActive !== 'ressource'" (click)="changerVue('ressource')">
+            Par ressource
+          </button>
+        </div>
+        <select class="form-select form-select-sm" style="width: auto;" [(ngModel)]="typePeriodeFiltre" (ngModelChange)="onFiltreChange()">
+          <option value="">Toutes les périodes</option>
+          <option value="mensuelle">Mensuelle</option>
+          <option value="trimestrielle">Trimestrielle</option>
+          <option value="semestrielle">Semestrielle</option>
+        </select>
+      </div>
+
+      <div class="card-body">
+        @if (isLoading()) {
+          <p>Chargement...</p>
+        } @else if (vueActive === 'client') {
+          <h5 class="mb-3">Consommation de ressources par client</h5>
+          @if (chartClientOptions(); as chart) {
+            <apx-chart
+              [series]="chart.series"
+              [chart]="chart.chart"
+              [xaxis]="chart.xaxis"
+              [colors]="chart.colors"
+              [plotOptions]="chart.plotOptions"
+            ></apx-chart>
+          }
+
+          <table class="table table-hover mt-4">
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Quantité totale consommée</th>
+                <th>Montant total</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (c of parClient(); track c.societeId) {
+                <tr>
+                  <td>{{ c.nom }}</td>
+                  <td>{{ c.quantiteTotale | number: '1.2-2' }}</td>
+                  <td>{{ c.montantTotal | number: '1.2-2' }}</td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="3" class="text-center">Aucune donnée disponible</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        } @else {
+          <h5 class="mb-3">Consommation par ressource Cloud</h5>
+          @if (chartRessourceOptions(); as chart) {
+            <apx-chart
+              [series]="chart.series"
+              [chart]="chart.chart"
+              [xaxis]="chart.xaxis"
+              [colors]="chart.colors"
+              [plotOptions]="chart.plotOptions"
+            ></apx-chart>
+          }
+
+          <table class="table table-hover mt-4">
+            <thead>
+              <tr>
+                <th>Ressource Cloud</th>
+                <th>Unité</th>
+                <th>Quantité totale consommée</th>
+                <th>Montant total</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (r of parRessource(); track r.ressourceCloud) {
+                <tr>
+                  <td>{{ r.ressourceCloud }}</td>
+                  <td>{{ r.unite }}</td>
+                  <td>{{ r.quantiteTotale | number: '1.2-2' }}</td>
+                  <td>{{ r.montantTotal | number: '1.2-2' }}</td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="4" class="text-center">Aucune donnée disponible</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+    </div>
+  </div>
+</div>
