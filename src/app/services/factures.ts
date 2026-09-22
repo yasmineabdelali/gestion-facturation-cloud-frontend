@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Facture, TypePeriode } from '../models/facture.model';
-
+import { ComparaisonResultat } from '../models/comparaison.model';
 export interface CreateFacturePayload {
   projet_id: number;
   type_periode: TypePeriode;
@@ -30,6 +30,9 @@ export class FacturesService {
   findByProjet(projetId: number): Observable<Facture[]> {
     return this.http.get<Facture[]>(`${this.apiUrl}/projet/${projetId}`);
   }
+  findAll(): Observable<Facture[]> {
+  return this.http.get<Facture[]>(this.apiUrl);
+}
 
   findOne(id: number): Observable<Facture> {
     return this.http.get<Facture>(`${this.apiUrl}/${id}`);
@@ -78,5 +81,11 @@ downloadExcel(id: number): void {
       alert('Erreur lors du téléchargement du fichier Excel');
     }
   });
+}
+
+
+//fonctionalite de comparaison entre consommation prevu et reel 
+getComparaison(projetId: number): Observable<ComparaisonResultat> {
+  return this.http.get<ComparaisonResultat>(`${this.apiUrl}/projet/${projetId}/comparaison`);
 }
 }

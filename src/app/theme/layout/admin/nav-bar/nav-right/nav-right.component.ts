@@ -1,18 +1,16 @@
-// angular import
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { CommonModule, DecimalPipe } from '@angular/common';
+import { NgbDropdownConfig, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
-// bootstrap import
-import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
-
-// project import
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { AuthService } from 'src/app/services/auth';
+import { NotificationsService } from 'src/app/services/notifications';
 
 @Component({
   selector: 'app-nav-right',
-  imports: [SharedModule],
+  imports: [CommonModule, RouterLink, DecimalPipe, NgbDropdownModule, SharedModule],
   templateUrl: './nav-right.component.html',
   styleUrls: ['./nav-right.component.scss'],
   providers: [NgbDropdownConfig],
@@ -27,28 +25,27 @@ import { AuthService } from 'src/app/services/auth';
     ])
   ]
 })
-export class NavRightComponent {
-  // public props
-  visibleUserList: boolean;
-  chatMessage: boolean;
+export class NavRightComponent implements OnInit {
+  visibleUserList = false;
+  chatMessage = false;
   friendId!: number;
 
-  // constructor
   constructor(
-        private authService: AuthService,
-        private router: Router
-  ) {
-    this.visibleUserList = false;
-    this.chatMessage = false;
+    private authService: AuthService,
+    private router: Router,
+    protected notificationsService: NotificationsService
+  ) {}
+
+  ngOnInit(): void {
+    this.notificationsService.charger();
   }
 
-  // public method
-  // eslint-disable-next-line
-  onChatToggle(friendID: any) {
+  onChatToggle(friendID: number): void {
     this.friendId = friendID;
     this.chatMessage = !this.chatMessage;
   }
-    onLogout(): void {
+
+  onLogout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
   }

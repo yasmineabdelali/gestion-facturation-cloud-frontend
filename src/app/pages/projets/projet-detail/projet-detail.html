@@ -1,12 +1,12 @@
 @if (projet(); as p) {
   <div class="row mb-3">
-  <div class="col-12 d-flex justify-content-between align-items-center">
+    <div class="col-12 d-flex justify-content-between align-items-center">
       <a [routerLink]="['/societes', p.societe_id]" class="text-muted">
         <i class="feather icon-arrow-left"></i> Retour à la société
       </a>
       <a [routerLink]="['/projets', p.id, 'factures']" class="btn btn-primary btn-sm">
-      <i class="feather icon-file-text"></i> Facturation
-    </a>
+        <i class="feather icon-file-text"></i> Facturation
+      </a>
     </div>
   </div>
 
@@ -119,4 +119,56 @@
       </div>
     </div>
   </div>
+
+    <div class="row mt-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Comparaison consommation prévue vs réelle</h5>
+          @if (comparaisonInfo(); as info) {
+            @if (info.facture) {
+              <small class="text-muted">
+                Basé sur la facture {{ info.facture.type_periode }} {{ info.facture.numero_periode }}/{{ info.facture.annee }}
+              </small>
+            } @else {
+              <small class="text-muted">Aucune facture existante — quantités réelles à 0</small>
+            }
+          }
+        </div>
+        <div class="card-body">
+          @if (comparaisonCartes().length > 0) {
+            <div class="row g-3">
+              @for (carte of comparaisonCartes(); track carte.ressourceCloud) {
+                <div class="col-md-4">
+                  <div class="border rounded p-2">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <strong class="small">{{ carte.ressourceCloud }}</strong>
+                      @if (carte.quantiteReelle > carte.quantitePrevue) {
+                        <span class="badge bg-danger">Dépassement</span>
+                      } @else if (carte.quantiteReelle < carte.quantitePrevue) {
+                        <span class="badge bg-success">Sous consommation</span>
+                      } @else {
+                        <span class="badge bg-secondary">Conforme</span>
+                      }
+                    </div>
+                    <apx-chart
+                      [series]="carte.chartOptions.series"
+                      [chart]="carte.chartOptions.chart"
+                      [xaxis]="carte.chartOptions.xaxis"
+                      [colors]="carte.chartOptions.colors"
+                      [plotOptions]="carte.chartOptions.plotOptions"
+                      [dataLabels]="carte.chartOptions.dataLabels"
+                    ></apx-chart>
+                  </div>
+                </div>
+              }
+            </div>
+          } @else {
+            <p class="text-muted text-center py-4">Aucune donnée de comparaison disponible.</p>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
 }

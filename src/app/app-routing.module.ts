@@ -2,82 +2,83 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
-import {authGuard} from './guards/auth-guard';
+import { authGuard } from './guards/auth-guard';
 import { adminGuard } from './guards/admin-guard';
+
 const routes: Routes = [
-{
-  path: '',
-  component: AdminComponent,
+  {
+    path: '',
+    component: AdminComponent,
     canActivate: [authGuard],
-  children: [
-    {
-      path: 'dashboard',
-      loadComponent: () => import('./pages/dashboard/dashboard').then((c) => c.Dashboard)
-    },
-    {
-  path: 'users',
-  canActivate: [adminGuard],
-  loadComponent: () => import('./pages/users/user-list/user-list').then((c) => c.UserList)
-    },
-    {
-  path: 'societes',
-  loadComponent: () => import('./pages/societes/societe-list/societe-list').then((c) => c.SocieteList)
-},
-{
-  path: 'societes/:id',
-  loadComponent: () => import('./pages/societes/societe-detail/societe-detail').then((c) => c.SocieteDetail)
-},
-{
-  path: 'projets',
-  loadComponent: () => import('./pages/projets/projet-list/projet-list').then((c) => c.ProjetList)
-},
-{
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./pages/dashboard/dashboard').then((c) => c.Dashboard)
+      },
+      {
+        path: 'users',
+        canActivate: [adminGuard],
+        loadComponent: () => import('./pages/users/user-list/user-list').then((c) => c.UserList)
+      },
+      {
+        path: 'societes',
+        loadComponent: () => import('./pages/societes/societe-list/societe-list').then((c) => c.SocieteList)
+      },
+      {
+        path: 'societes/:id',
+        loadComponent: () => import('./pages/societes/societe-detail/societe-detail').then((c) => c.SocieteDetail)
+      },
+      {
+        path: 'projets',
+        loadComponent: () => import('./pages/projets/projet-list/projet-list').then((c) => c.ProjetList)
+      },
+      {
         path: 'projets/:id',
         loadComponent: () => import('./pages/projets/projet-detail/projet-detail').then((c) => c.ProjetDetail)
-},
-{
-  path: 'projets/:id/factures',
-  loadComponent: () => import('./pages/factures/facture-list/facture-list').then((c) => c.FactureList)
-},
-{
-  path: 'factures/:id',
-  loadComponent: () => import('./pages/factures/facture-detail/facture-detail').then((c) => c.FactureDetail)
-},
-
-{
-  path: 'factures-consolidees/:id',
-  loadComponent: () => import('./pages/factures-consolidees/facture-consolidee-detail/facture-consolidee-detail').then((c) => c.FactureConsolideeDetail)
-},
-{
-  path: 'recherche',
-  loadComponent: () => import('./pages/recherche/recherche').then((c) => c.Recherche)
-},
-  ]
-},
-{
-  path: '',
-  component: GuestComponent,
-  children: [
-    {
-      path: 'login',
-      loadComponent: () => import('./pages/login/login').then((c) => c.Login)
-    },
-    {
-      path: 'forgot-password',
-      loadComponent: () => import('./pages/forgot-password/forgot-password').then((c) => c.ForgotPassword)
-    },
-    {
-      path: 'reset-password',
-      loadComponent: () => import('./pages/reset-password/reset-password').then((c) => c.ResetPassword)
-    }
-  ]
-}
-
+      },
+      {
+        path: 'projets/:id/factures',
+        loadComponent: () => import('./pages/factures/facture-list/facture-list').then((c) => c.FactureList)
+      },
+      {
+        path: 'factures',
+        loadComponent: () => import('./pages/factures/facture-list-all/facture-list-all').then((c) => c.FactureListAll)
+      },
+      {
+        path: 'factures/:id',
+        loadComponent: () => import('./pages/factures/facture-detail/facture-detail').then((c) => c.FactureDetail)
+      },
+      {
+        path: 'factures-consolidees/:id',
+        loadComponent: () =>
+          import('./pages/factures-consolidees/facture-consolidee-detail/facture-consolidee-detail').then(
+            (c) => c.FactureConsolideeDetail
+          )
+      }
+    ]
+  },
+  {
+    path: '',
+    component: GuestComponent,
+    children: [
+      {
+        path: 'login',
+        loadComponent: () => import('./pages/login/login').then((c) => c.Login)
+      },
+      {
+        path: 'forgot-password',
+        loadComponent: () => import('./pages/forgot-password/forgot-password').then((c) => c.ForgotPassword)
+      },
+      {
+        path: 'reset-password',
+        loadComponent: () => import('./pages/reset-password/reset-password').then((c) => c.ResetPassword)
+      }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-
 export class AppRoutingModule {}

@@ -1,0 +1,204 @@
+<div class="row mb-3">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Recherche multicritère</h5>
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-3">
+            <label class="form-label">Client</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="client"
+              (ngModelChange)="onClientChange()"
+              placeholder="Nom de la société"
+              list="clientsList"
+            />
+            <datalist id="clientsList">
+              @for (s of societes(); track s.id) {
+                <option [value]="s.nom"></option>
+              }
+            </datalist>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">SO / Projet</label>
+            <select
+              class="form-select"
+              [ngModel]="projetId"
+              (ngModelChange)="onProjetChange($event)"
+            >
+              <option [ngValue]="null">Tous les projets</option>
+              @for (p of projetsFiltres(); track p.id) {
+                <option [ngValue]="p.id">{{ p.numero_so }} - {{ p.nom_projet }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">Type de période</label>
+            <select
+              class="form-select"
+              [(ngModel)]="typePeriode"
+              (ngModelChange)="onTypePeriodeChange()"
+              [disabled]="projetId === null || isLoadingPeriodes()"
+            >
+              <option value="">{{ projetId === null ? 'Choisir un projet' : 'Tous' }}</option>
+              @for (type of typesDisponibles(); track type) {
+                <option [value]="type">{{ type }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">Année</label>
+            <select
+              class="form-select"
+              [(ngModel)]="annee"
+              (ngModelChange)="onAnneeChange()"
+              [disabled]="projetId === null || isLoadingPeriodes()"
+            >
+              <option [ngValue]="null">{{ projetId === null ? 'Choisir un projet' : 'Toutes' }}</option>
+              @for (a of anneesDisponibles(); track a) {
+                <option [ngValue]="a">{{ a }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">N° période</label>
+            <select
+              class="form-select"
+              [(ngModel)]="numeroPeriode"
+              [disabled]="projetId === null || isLoadingPeriodes()"
+            >
+              <option [ngValue]="null">{{ projetId === null ? 'Choisir un projet' : 'Toutes' }}</option>
+              @for (n of numerosDisponibles(); track n) {
+                <option [ngValue]="n">{{ libelleNumero(n) }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        @if (isLoadingPeriodes()) {
+          <small class="text-muted d-block mt-2">Chargement des périodes disponibles...</small>
+        }
+
+        <div class="mt-3">
+          <button class="btn btn-primary" (click)="onRechercher()">
+            <i class="feather icon-search"></i> Rechercher
+          </button>
+          <button class="btn btn-outline-secondary ms-2" (click)="onReset()">
+            Réinitialiser
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <button
+              type="button"
+              class="nav-link"
+              [class.active]="activeTab() === 'individuelles'"
+              (click)="activeTab.set('individuelles')"
+            >
+              Factures individuelles ({{ factures().length }})
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              type="button"
+              class="nav-link"
+              [class.active]="activeTab() === 'consolidees'"
+              (click)="activeTab.set('consolidees')"
+            >
+              Factures consolidées ({{ facturesConsolidees().length }})
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body">
+        @if (isLoading()) {
+          <p>Chargement...</p>
+        } @else if (activeTab() === 'individuelles') {
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>SO</th>
+                <th>Projet</th>
+                <th>Période</th>
+                <th>Type</th>
+                <th>Statut</th>
+                <th>Montant</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (f of factures(); track f.id) {
+                <tr>
+                  <td>{{ f.projet?.societe?.nom || '-' }}</td>
+                  <td>{{ f.projet?.numero_so || '-' }}</td>
+                  <td>{{ f.projet?.nom_projet || '-' }}</td>
+                  <td>{{ libellePeriode(f.type_periode, f.numero_periode, f.annee) }}</td>
+                  <td>{{ f.type_periode }}</td>
+                  <td>
+                    <span class="badge" [class.bg-success]="f.statut === 'validee'" [class.bg-warning]="f.statut === 'brouillon'">
+                      {{ f.statut }}
+                    </span>
+                  </td>
+                  <td>{{ f.montant_total | number: '1.2-2' }}</td>
+                  <td>
+                    <a [routerLink]="['/factures', f.id]" class="btn btn-sm btn-outline-primary">Voir</a>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="8" class="text-center">Aucune facture trouvée</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        } @else {
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Période</th>
+                <th>Nombre de factures</th>
+                <th>Montant total</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (fc of facturesConsolidees(); track fc.id) {
+                <tr>
+                  <td>{{ fc.societe?.nom || '-' }}</td>
+                  <td>{{ libellePeriode(fc.type_periode, fc.numero_periode, fc.annee) }}</td>
+                  <td>{{ fc.factures.length }}</td>
+                  <td>{{ fc.montant_total | number: '1.2-2' }}</td>
+                  <td>
+                    <a [routerLink]="['/factures-consolidees', fc.id]" class="btn btn-sm btn-outline-primary">Voir</a>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="5" class="text-center">Aucune facture consolidée trouvée</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+    </div>
+  </div>
+</div>

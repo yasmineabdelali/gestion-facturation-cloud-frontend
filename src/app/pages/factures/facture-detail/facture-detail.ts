@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { FacturesService, UpdateLignePayload } from '../../../services/factures';
 import { AuthService } from '../../../services/auth';
 import { Facture } from '../../../models/facture.model';
-
+import { NotificationsService } from '../../../services/notifications';
 @Component({
   selector: 'app-facture-detail',
   imports: [CommonModule, RouterLink, FormsModule],
@@ -25,7 +25,9 @@ quantites: Record<number, number | undefined> = {};
   constructor(
     private route: ActivatedRoute,
     private facturesService: FacturesService,
-    protected authService: AuthService
+    protected authService: AuthService,
+      private notificationsService: NotificationsService
+
   ) {}
 
   ngOnInit(): void {
@@ -84,20 +86,21 @@ quantites: Record<number, number | undefined> = {};
     });
   }
 
-  onValider(): void {
-    if (!confirm('Valider cette facture ? Elle ne pourra plus être modifiée sans autorisation administrateur.')) {
-      return;
-    }
-    this.facturesService.valider(this.factureId).subscribe({
-      next: (facture) => {
-        this.facture.set(facture);
-        this.successMessage.set('Facture validée avec succès.');
-      },
-      error: (err) => {
-        this.errorMessage.set(err.error?.message || 'Erreur lors de la validation');
-      }
-    });
+onValider(): void {
+  if (!confirm('Valider cette facture ? Elle ne pourra plus être modifiée sans autorisation administrateur.')) {
+    return;
   }
+  this.facturesService.valider(this.factureId).subscribe({
+    next: (facture) => {
+      this.facture.set(facture);
+      this.successMessage.set('Facture validée avec succès.');
+      this.notificationsService.retirerFacture(this.factureId);
+    },
+    error: (err) => {
+      this.errorMessage.set(err.error?.message || 'Erreur lors de la validation');
+    }
+  });
+}
 
   onDevalider(): void {
     if (!confirm('Remettre cette facture en brouillon ?')) {

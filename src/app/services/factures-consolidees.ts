@@ -22,6 +22,9 @@ export class FacturesConsolideesService {
   create(payload: CreateFactureConsolideePayload): Observable<FactureConsolidee> {
     return this.http.post<FactureConsolidee>(this.apiUrl, payload);
   }
+    findAll(): Observable<FactureConsolidee[]> {
+    return this.http.get<FactureConsolidee[]>(this.apiUrl);
+  }
 
   findBySociete(societeId: number): Observable<FactureConsolidee[]> {
     return this.http.get<FactureConsolidee[]>(`${this.apiUrl}/societe/${societeId}`);
