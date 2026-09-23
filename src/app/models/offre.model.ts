@@ -1,3 +1,5 @@
+import { Devise } from './devise.model';
+
 export interface RessourceOffre {
   id: number;
   offre_id: number;
@@ -20,6 +22,7 @@ export interface OffreFinanciere {
   version: number;
   nom_fichier_original: string;
   statut: StatutOffre;
+  devise: Devise;
   ressources: RessourceOffre[];
   date_import: string;
 }

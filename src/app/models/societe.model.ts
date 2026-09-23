@@ -1,3 +1,4 @@
+import { Devise } from './devise.model';
 export interface Societe {
   id: number;
   nom: string;
@@ -5,5 +6,7 @@ export interface Societe {
   telephone: string;
   email: string;
   personne_contact?: string;
+    devise: Devise;
+
   date_creation: string;
 }

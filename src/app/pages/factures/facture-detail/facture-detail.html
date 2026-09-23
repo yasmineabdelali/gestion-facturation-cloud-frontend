@@ -64,7 +64,7 @@
             <tfoot>
               <tr>
                 <td colspan="4" class="text-end"><strong>Montant total</strong></td>
-                <td><strong>{{ montantEstime | number: '1.2-2' }}</strong></td>
+                <td><strong>{{ montantEstime | devise: facture()?.devise }}</strong></td>
               </tr>
             </tfoot>
           </table>

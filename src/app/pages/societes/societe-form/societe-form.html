@@ -24,6 +24,19 @@
       <label class="form-label">Personne de contact</label>
       <input type="text" class="form-control" [(ngModel)]="personne_contact" name="personne_contact" />
     </div>
+    <div class="mb-3">
+      <label class="form-label">Devise de facturation *</label>
+      <select class="form-select" [(ngModel)]="devise" name="devise" required>
+        @for (d of devisesDisponibles; track d) {
+          <option [value]="d">{{ d }}</option>
+        }
+      </select>
+      @if (mode === 'edit') {
+        <small class="text-muted">
+          Changer la devise n'affecte pas les offres/factures déjà créées, seulement les futures.
+        </small>
+      }
+    </div>
 
     @if (errorMessage()) {
       <div class="alert alert-danger">{{ errorMessage() }}</div>

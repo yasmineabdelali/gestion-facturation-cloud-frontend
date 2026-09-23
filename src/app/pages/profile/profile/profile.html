@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Mon profil</h5>
+      </div>
+      <div class="card-body">
+        @if (authService.currentUser(); as user) {
+          <div class="d-flex align-items-center mb-4">
+            <img
+              src="assets/images/user/avatar-1.jpg"
+              class="img-radius"
+              style="width: 80px; height: 80px;"
+              alt="Photo de profil"
+            />
+            <div class="ms-3">
+              <h5 class="mb-1">{{ user.nom }}</h5>
+              <span class="badge" [class.bg-primary]="user.role === UserRole.ADMIN" [class.bg-secondary]="user.role === UserRole.CONSULTANT">
+                {{ roleLabel(user.role) }}
+              </span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label text-muted small">Nom complet</label>
+              <p class="fw-medium">{{ user.nom }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label text-muted small">Adresse email</label>
+              <p class="fw-medium">{{ user.email }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label text-muted small">Rôle</label>
+              <p class="fw-medium">{{ roleLabel(user.role) }}</p>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label text-muted small">Identifiant</label>
+              <p class="fw-medium">#{{ user.id }}</p>
+            </div>
+          </div>
+        } @else {
+          <p class="text-muted">Aucune information disponible.</p>
+        }
+      </div>
+    </div>
+  </div>
+</div>

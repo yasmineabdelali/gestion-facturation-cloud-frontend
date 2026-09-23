@@ -6,9 +6,11 @@ import { FacturesService, UpdateLignePayload } from '../../../services/factures'
 import { AuthService } from '../../../services/auth';
 import { Facture } from '../../../models/facture.model';
 import { NotificationsService } from '../../../services/notifications';
+import { DevisePipe } from '../../../pipes/devise.pipe';
+
 @Component({
   selector: 'app-facture-detail',
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule,DevisePipe],
   templateUrl: './facture-detail.html',
   styleUrl: './facture-detail.scss'
 })

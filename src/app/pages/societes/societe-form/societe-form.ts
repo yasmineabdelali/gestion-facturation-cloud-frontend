@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SocietesService } from '../../../services/societes';
 import { Societe } from '../../../models/societe.model';
+import { Devise } from '../../../models/devise.model';
 
 @Component({
   selector: 'app-societe-form',
@@ -19,6 +20,9 @@ export class SocieteFormComponent implements OnInit {
   telephone = '';
   email = '';
   personne_contact = '';
+  devise: Devise = Devise.TND;
+
+  devisesDisponibles = Object.values(Devise);
 
   errorMessage = signal<string | null>(null);
   isSaving = signal(false);
@@ -35,6 +39,7 @@ export class SocieteFormComponent implements OnInit {
       this.telephone = this.societeToEdit.telephone;
       this.email = this.societeToEdit.email;
       this.personne_contact = this.societeToEdit.personne_contact || '';
+      this.devise = this.societeToEdit.devise || Devise.TND;
     }
   }
 
@@ -47,7 +52,8 @@ export class SocieteFormComponent implements OnInit {
       adresse: this.adresse,
       telephone: this.telephone,
       email: this.email,
-      personne_contact: this.personne_contact
+      personne_contact: this.personne_contact,
+      devise: this.devise
     };
 
     const request$ = this.mode === 'create'

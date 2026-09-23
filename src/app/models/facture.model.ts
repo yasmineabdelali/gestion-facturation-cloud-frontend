@@ -1,4 +1,6 @@
 import { Projet } from './projet.model';
+import { Devise } from './devise.model';
+
 export enum TypePeriode {
   MENSUELLE = 'mensuelle',
   TRIMESTRIELLE = 'trimestrielle',
@@ -21,7 +23,6 @@ export interface LigneFacture {
   montant_ligne: number;
 }
 
-
 export interface Facture {
   id: number;
   projet_id: number;
@@ -31,6 +32,7 @@ export interface Facture {
   numero_periode: number;
   statut: StatutFacture;
   montant_total: number;
+  devise: Devise;
   date_validation: string | null;
   lignes: LigneFacture[];
   date_creation: string;
